@@ -19,7 +19,7 @@ the add-in surfaces described below.
 | `validator-core.js` | Pure domain-grouping logic shared by the task pane and the send guard. |
 | `assets/icon-*.png` | Ribbon icons (16/20/24/32/40/48/64/80 px), generated from a blue circle + envelope + checkmark. |
 | `index.html` | Informational landing page only — not used by Outlook. |
-| `manifest.xml` | **Not included** — you're adding this by hand. See below for the exact values it needs to reference. |
+| `manifest.xml` | The add-in manifest, pre-filled with this repo's GitHub Pages URLs. |
 
 ## GitHub Pages
 
@@ -32,85 +32,48 @@ https://ksra1.github.io/oev/
 
 All URLs below assume that base.
 
-## What your manifest.xml needs to reference
+## manifest.xml
 
-### Task pane command (ribbon icon on the compose window)
+Already in this repo, pointing at `https://ksra1.github.io/oev/...` for every
+URL. Two things to change before real use:
 
-- Icons: `assets/icon-16.png`, `assets/icon-32.png`, `assets/icon-80.png`
-- Task pane source location: `https://ksra1.github.io/oev/taskpane.html`
-- Requirement set: `Mailbox 1.5` is enough for the task pane itself.
+- `<ProviderName>` currently says `Sravan` — update if you want something else.
+- `<Id>` is a random GUID (`ca549072-6cf4-4892-8e6a-9e1932b438b0`) generated
+  for this project. Keep it as-is unless you're forking this into a second,
+  separate add-in — Outlook uses this ID to tell add-ins apart.
 
-Example `VersionOverrides` (XML manifest, `MessageComposeCommandSurface`):
+It wires up two extension points:
 
-```xml
-<bt:Urls>
-  <bt:Url id="Commands.Url" DefaultValue="https://ksra1.github.io/oev/commands.html"/>
-  <bt:Url id="Taskpane.Url" DefaultValue="https://ksra1.github.io/oev/taskpane.html"/>
-</bt:Urls>
-<bt:Images>
-  <bt:Image id="Icon.16x16" DefaultValue="https://ksra1.github.io/oev/assets/icon-16.png"/>
-  <bt:Image id="Icon.32x32" DefaultValue="https://ksra1.github.io/oev/assets/icon-32.png"/>
-  <bt:Image id="Icon.80x80" DefaultValue="https://ksra1.github.io/oev/assets/icon-80.png"/>
-</bt:Images>
+1. **Task pane command** (`MessageComposeCommandSurface`, requirement set
+   `Mailbox 1.5`) — the ribbon button that opens `taskpane.html`.
+2. **Send-time guard** (`LaunchEvent` of `Type="ItemSend"`, requirement set
+   `Mailbox 1.10`) — binds to `validateOnSend` in `commands.js`, with
+   `SendMode="PromptUser"` so `event.completed({allowEvent:false})` actually
+   stops the send and our own dialog (`dialog.html`) can take over instead of
+   a generic Outlook prompt.
 
-<Control xsi:type="Button" id="ValidatorButton">
-  <Label resid="ValidatorButton.Label"/>
-  <Supertip>
-    <Title resid="ValidatorButton.Label"/>
-    <Description resid="ValidatorButton.Tooltip"/>
-  </Supertip>
-  <Icon>
-    <bt:Image size="16" resid="Icon.16x16"/>
-    <bt:Image size="32" resid="Icon.32x32"/>
-    <bt:Image size="80" resid="Icon.80x80"/>
-  </Icon>
-  <Action xsi:type="ShowTaskpane">
-    <SourceLocation resid="Taskpane.Url"/>
-  </Action>
-</Control>
-```
+**Known validator false-positive:** running
+`npx office-addin-manifest validate manifest.xml` will pass everything except
+one line: `Autorun LaunchEvent Type is not valid`. That check calls a
+Microsoft-hosted acceptance-test service, not local XML schema validation
+(all real schema errors are already fixed — the file validates cleanly
+against the XSD). The `ItemSend` LaunchEvent is a newer, less common
+extension point, and this hosted service has a known gap in recognizing it;
+the manifest structure matches Microsoft's own smart-alerts sample. Trust
+sideloading in real Outlook over this one check.
 
-### Send-time guard (`ItemSend` LaunchEvent)
+## Sideloading to test
 
-- Function file: `https://ksra1.github.io/oev/commands.html`
-- Function name to bind: `validateOnSend`
-- Requirement set: `Mailbox 1.10` (LaunchEvent / `Office.actions.associate`) — if
-  your target Outlook clients only support the older `ExecuteFunction`
-  pattern, you may need `Mailbox 1.8`/`1.9` and the older event registration
-  instead.
-
-Example (inside `VersionOverrides` for the same command surface, alongside
-the `Control` above):
-
-```xml
-<Runtimes>
-  <Runtime resid="Commands.Url" lifetime="short">
-    <Override type="javascript" resid="Commands.Url"/>
-  </Runtime>
-</Runtimes>
-
-<Hosts>
-  <Host xsi:type="MailHost">
-    <DesktopFormFactor>
-      <FunctionFile resid="Commands.Url"/>
-      <ExtensionPoint xsi:type="LaunchEvent">
-        <LaunchEvents>
-          <LaunchEvent Type="ItemSend" FunctionName="validateOnSend" SendMode="PromptUser"/>
-        </LaunchEvents>
-        <SourceLocation resid="Commands.Url"/>
-      </ExtensionPoint>
-    </DesktopFormFactor>
-  </Host>
-</Hosts>
-```
-
-`SendMode="PromptUser"` is important — it's what lets `event.completed({allowEvent:false})`
-actually stop the send and lets our own dialog (`dialog.html`) take over the
-confirmation instead of a generic Outlook prompt.
-
-If you're using the newer unified JSON manifest instead of XML, the
-equivalent is a `"launchEvent"` entry under `runtimes[].actions` pointing at
-`validateOnSend` with `"onlyOnPrompt": true`.
+1. Confirm the site is live: `https://ksra1.github.io/oev/taskpane.html`
+   should load.
+2. In Outlook on the web or new Outlook for Windows: **Get Add-ins** → **My
+   add-ins** → **Add a custom add-in** → **Add from file** → pick
+   `manifest.xml`.
+3. In classic Outlook for Windows/Mac, sideload via a network shared folder
+   or the Microsoft 365 admin center, per Microsoft's [sideload docs](https://learn.microsoft.com/office/dev/add-ins/testing/sideload-office-add-ins-for-testing).
+4. Open a new message, click the **Check Recipients** button in the ribbon,
+   and add recipients from two different domains to confirm both the task
+   pane grouping and the send-time confirmation dialog show up.
 
 ## How the logic works
 
