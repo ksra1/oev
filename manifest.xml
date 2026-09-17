@@ -7,7 +7,7 @@
   xsi:type="MailApp">
 
   <Id>ca549072-6cf4-4892-8e6a-9e1932b438b0</Id>
-  <Version>1.0.0.1</Version>
+  <Version>1.0.0.2</Version>
   <ProviderName>Sravan</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Email Validator"/>
@@ -88,11 +88,17 @@
       </Host>
     </Hosts>
 
+    <!-- Icons are embedded as data: URIs rather than referencing ksra1.github.io directly:
+         Outlook's ribbon-rendering surface restricts img-src to its own CDNs (used to proxy
+         Store-published add-in icons) plus data:, so an external URL here silently fails to
+         load - and past experience with this add-in suggests that a failed icon load can be
+         enough for Outlook to drop the entire custom ribbon group rather than just show a
+         blank icon. -->
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://ksra1.github.io/oev/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://ksra1.github.io/oev/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://ksra1.github.io/oev/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAgUlEQVR4nKVT0Q6AIAgU1t/kB9oX5AfW99jccgMCsrg34e64oaYUBJidcrRHrWZ4NyiK0DHCz2LBA1ls++pqYTtZEqTNLmYERSwHoIw0TKSRJu461CZ1Ik2jilkCA8PE2wuaHWLiAVMQaL2wKdQMCz17V+gn+JPi5vMdzJoQXvg3XnoFOTidB6MvAAAAAElFTkSuQmCC"/>
+        <bt:Image id="Icon.32x32" DefaultValue="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABD0lEQVR4nOWXUQ6DMAhAC/ECnmM7oPvY1z7mAbdzeIQakjVh1SItqEvGpwrviUg0hH8PaMoaXrF4brxW1QQXqEEGd4Mr82AXcEU38BC4UA8PgQt1MZwcIFnG58UHcnsX5wElOCUukhvgixthnE5KTomrRRRgXqMUqCmWulEDpxyNNGonX/tI1N368LrtK78lShBty/Poqq5mIhzYMiMmAeuAui6iaNwVGE4O/K1VPPiv4SIYAExDWBP9vV8cizHW7wEPcH4OLR+UrXAesMcHCc2PVgAtIAt8ekyCwOj3KErw9Rlwlkh3mR/jHUKxAkkYRAhEwCSSw7cFuIhBIomszQY0Vd34N6QlY3sNjVEjMAMRAZMrx6dUZAAAAABJRU5ErkJggg=="/>
+        <bt:Image id="Icon.80x80" DefaultValue="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAC0UlEQVR4nO2cQXLDIAxFDdML+BzpAdtFV13EB2zPkSOok0w840nBFiCZj+BvOnEdR7x8QFJdT9PQ0NDQ0FCm3ISkjx9in7u8Q8TumoAFDNWZAFcRpDMDrRJMZxbcSSD91AM8xXiceXDKbvTdwROO03cHTzhe3yU8wbh9t/CE4vddwxMYRz5AK/AKx5MH0Bq8gnGlA7QKL3N8aQCtw8sYp14p14n4AHtxX+J4eQB7g5cw7rdJSHS9TC3Jff7KXEfafQQOMgvcTvfGo36zGtKIrWgK09Ntr4Gtr1HcGAMXiz9FXmL6UgQUghuP4LG0w0F8E3FAbgzBk47DS6cuBODG+2eJw4vwUKlE6HoJBhsbGNyUTZBqKUcnunHPdZrLh3otTCe48WzXVWkmkIIba7nuGKBS7UuCbqziugCXKu0sKnRjbdep5IFn5I011zrYhiox3YgIr6oDU9yICA7GgTlQUODBOJDbIUECB+nAEKzXn2iCBdgCPHiALWgAVAEI8k8scApwGQ4s1ABYqAGwUANgofY3i4O+IAHnZ5J6VEWRjXU4kKFHr5GIxO+NISMOnL/m6O9u37d/x5xzDraZgAAtdt4Kc3XjHWR3AGcmuL33bkEer4GGqpK5AF7sOl04cBYCF7ombxc25EJp8dOYRiHOCu7bKg1KIzeb0zO90oaXnkg36kIJhfLBvEoEHCIpuG+FF4KYV8qBQ5TUK7T76+2x/FoYECKdVFpu3V3WTFjwIEpO39CUfb12eTdmwYR4Bjy5dtbSBsTYTpp7nmw/cMGGuLeThs7jLguyDdUFG2JsJ90eT11T5TvSy7tDAxkDw5mqRxuSXkt/wYHI6ThzNw3Tzw+kTR4YGzx3g+CmQuaeYEmMUk5i6pp9hio9/15xBGAPYkoiDrNOST7FlwsxBDK1isECKKQUgCvE3PLPJMAciLkyf2fCLaEsy5FZgG5z94Cm/gDf73+8HY9UigAAAABJRU5ErkJggg=="/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="Commands.Url" DefaultValue="https://ksra1.github.io/oev/commands.html"/>
