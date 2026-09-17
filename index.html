@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outlook Email Validator</title>
+  <link rel="stylesheet" href="taskpane.css" />
+  <style>
+    .ov-body { max-width: 640px; margin: 0 auto; }
+    .ov-body h2 { font-size: 15px; margin: 20px 0 8px; }
+    .ov-body p, .ov-body li { color: var(--ov-text-secondary); font-size: 13px; }
+    .ov-body code {
+      background: var(--ov-surface);
+      border: 1px solid var(--ov-border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 12px;
+    }
+    .ov-body ul { padding-left: 18px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header class="ov-header">
+      <img src="assets/icon-32.png" alt="" />
+      <h1>Outlook Email Validator</h1>
+    </header>
+    <main class="ov-body">
+      <div class="ov-banner ok">
+        <span class="ov-banner-icon">&#10003;</span>
+        <span>This page hosts static assets for an Outlook add-in. It is not meant to be opened directly.</span>
+      </div>
+      <h2>What this is</h2>
+      <p>
+        A client-side Outlook add-in that groups the recipients of the email you're composing by
+        domain, so it's easy to see at a glance whether you're about to send a message to a mix of
+        companies by mistake. All logic runs in your browser inside Outlook; no email content or
+        addresses are ever sent to this server.
+      </p>
+      <h2>Files</h2>
+      <ul>
+        <li><code>taskpane.html</code> &mdash; the panel that opens when you click the ribbon icon</li>
+        <li><code>commands.html</code> / <code>commands.js</code> &mdash; the send-time confirmation guard</li>
+        <li><code>dialog.html</code> &mdash; the "multiple companies detected" confirmation popup</li>
+        <li><code>validator-core.js</code> &mdash; shared domain-grouping logic</li>
+        <li><code>manifest.xml</code> &mdash; added manually, not part of this repo's build</li>
+      </ul>
+      <h2>Setup</h2>
+      <p>See <code>README.md</code> in the repository for the manifest.xml snippet and sideloading steps.</p>
+    </main>
+  </div>
+</body>
+</html>

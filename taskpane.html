@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outlook Email Validator</title>
+  <link rel="stylesheet" href="taskpane.css" />
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="ov-header">
+      <img src="assets/icon-32.png" alt="" />
+      <h1>Recipient Company Check</h1>
+      <button id="refreshBtn" class="ov-refresh-btn" type="button">Refresh</button>
+    </header>
+    <main class="ov-body">
+      <div id="banner"></div>
+      <div id="groups"></div>
+    </main>
+    <footer class="ov-footer">
+      Recipients are read from this message only, in your browser. Nothing is sent to any server.
+    </footer>
+  </div>
+
+  <script src="validator-core.js"></script>
+  <script src="taskpane.js"></script>
+</body>
+</html>

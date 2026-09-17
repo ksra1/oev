@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirm recipients</title>
+  <link rel="stylesheet" href="taskpane.css" />
+  <link rel="stylesheet" href="dialog.css" />
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="ov-header">
+      <img src="assets/icon-32.png" alt="" />
+      <h1>Multiple companies detected</h1>
+    </header>
+    <main class="ov-body">
+      <div class="ov-banner warn">
+        <span class="ov-banner-icon">&#9888;</span>
+        <span>This message has recipients from more than one domain. Review before sending.</span>
+      </div>
+      <div id="groups"></div>
+    </main>
+    <footer class="ov-dialog-actions">
+      <button id="backBtn" class="ov-btn ov-btn-primary" type="button">Go back &amp; review</button>
+      <button id="sendBtn" class="ov-btn ov-btn-secondary" type="button">Send anyway</button>
+    </footer>
+  </div>
+  <script src="dialog.js"></script>
+</body>
+</html>

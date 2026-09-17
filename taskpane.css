@@ -1,0 +1,257 @@
+:root {
+  --ov-blue: #0078d4;
+  --ov-blue-dark: #106ebe;
+  --ov-blue-light: #e5f1fb;
+  --ov-bg: #faf9f8;
+  --ov-surface: #ffffff;
+  --ov-border: #e1dfdd;
+  --ov-text: #201f1e;
+  --ov-text-secondary: #605e5c;
+  --ov-red: #d13438;
+  --ov-red-light: #fdecea;
+  --ov-green: #107c10;
+  --ov-green-light: #eaf6ea;
+  --ov-yellow: #797673;
+  --ov-radius: 4px;
+  --ov-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.13), 0 0.3px 0.9px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ov-blue: #2899f5;
+    --ov-blue-dark: #479ef5;
+    --ov-blue-light: #1b2a38;
+    --ov-bg: #1f1f1f;
+    --ov-surface: #292929;
+    --ov-border: #3b3a39;
+    --ov-text: #f3f2f1;
+    --ov-text-secondary: #c8c6c4;
+    --ov-red: #f1707b;
+    --ov-red-light: #3b1f20;
+    --ov-green: #6bb700;
+    --ov-green-light: #1f2e1a;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--ov-bg);
+  color: var(--ov-text);
+  font-family: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.ov-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--ov-surface);
+  border-bottom: 1px solid var(--ov-border);
+}
+
+.ov-header img {
+  width: 20px;
+  height: 20px;
+}
+
+.ov-header h1 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.ov-refresh-btn {
+  border: none;
+  background: transparent;
+  color: var(--ov-blue);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: var(--ov-radius);
+}
+
+.ov-refresh-btn:hover {
+  background: var(--ov-blue-light);
+}
+
+.ov-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px 24px;
+}
+
+.ov-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--ov-radius);
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ov-banner.warn {
+  background: var(--ov-red-light);
+  color: var(--ov-red);
+  border: 1px solid var(--ov-red);
+}
+
+.ov-banner.ok {
+  background: var(--ov-green-light);
+  color: var(--ov-green);
+  border: 1px solid var(--ov-green);
+}
+
+.ov-banner.empty {
+  background: var(--ov-surface);
+  color: var(--ov-text-secondary);
+  border: 1px solid var(--ov-border);
+  font-weight: 400;
+}
+
+.ov-banner .ov-banner-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.ov-group {
+  background: var(--ov-surface);
+  border: 1px solid var(--ov-border);
+  border-radius: var(--ov-radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+  box-shadow: var(--ov-shadow);
+}
+
+.ov-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--ov-blue-light);
+  border-bottom: 1px solid var(--ov-border);
+}
+
+.ov-group.multi .ov-group-header {
+  background: var(--ov-red-light);
+}
+
+.ov-domain-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--ov-blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.ov-group-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.ov-domain-name {
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ov-domain-count {
+  font-size: 11px;
+  color: var(--ov-text-secondary);
+}
+
+.ov-recipient-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.ov-recipient {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+}
+
+.ov-recipient:hover {
+  background: var(--ov-bg);
+}
+
+.ov-recipient-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ov-yellow);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ov-recipient-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ov-recipient-name {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ov-recipient-email {
+  font-size: 12px;
+  color: var(--ov-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ov-field-tag {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ov-text-secondary);
+  border: 1px solid var(--ov-border);
+  border-radius: 10px;
+  padding: 1px 7px;
+  flex-shrink: 0;
+}
+
+.ov-footer {
+  padding: 8px 16px;
+  font-size: 11px;
+  color: var(--ov-text-secondary);
+  border-top: 1px solid var(--ov-border);
+  background: var(--ov-surface);
+}

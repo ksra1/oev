@@ -1,0 +1,47 @@
+.ov-dialog-actions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--ov-border);
+  background: var(--ov-surface);
+}
+
+.ov-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: var(--ov-radius);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.ov-btn-primary {
+  background: var(--ov-blue);
+  color: #fff;
+}
+
+.ov-btn-primary:hover {
+  background: var(--ov-blue-dark);
+}
+
+.ov-btn-secondary {
+  background: var(--ov-surface);
+  color: var(--ov-red);
+  border-color: var(--ov-red);
+}
+
+.ov-btn-secondary:hover {
+  background: var(--ov-red-light);
+}
+
+.ov-domain-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--ov-surface);
+  border: 1px solid var(--ov-border);
+  border-radius: var(--ov-radius);
+  margin-bottom: 8px;
+}
