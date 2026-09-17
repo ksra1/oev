@@ -47,6 +47,69 @@
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
 
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+
+    <!-- Ribbon button: kept at the V1_0 (Mailbox 1.5) level on purpose, so it still shows up
+         on Outlook clients that don't yet support Mailbox 1.12 / Smart Alerts below. If the
+         button lived inside the nested V1_1 block instead, it would silently fail to load
+         (no icon at all) on any client that doesn't meet that higher requirement. -->
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.5">
+        <bt:Set Name="Mailbox"/>
+      </bt:Sets>
+    </Requirements>
+
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+          <FunctionFile resid="Commands.Url"/>
+          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="ValidatorGroup">
+                <Label resid="ValidatorGroup.Label"/>
+                <Control xsi:type="Button" id="ValidatorButton">
+                  <Label resid="ValidatorButton.Label"/>
+                  <Supertip>
+                    <Title resid="ValidatorButton.Label"/>
+                    <Description resid="ValidatorButton.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://ksra1.github.io/oev/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://ksra1.github.io/oev/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://ksra1.github.io/oev/assets/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Commands.Url" DefaultValue="https://ksra1.github.io/oev/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://ksra1.github.io/oev/taskpane.html"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="ValidatorGroup.Label" DefaultValue="Validator"/>
+        <bt:String id="ValidatorButton.Label" DefaultValue="Check Recipients"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="ValidatorButton.Tooltip" DefaultValue="Group recipients by company domain before you send."/>
+      </bt:LongStrings>
+    </Resources>
+
+    <!-- Send-time guard: needs the higher Mailbox 1.12 requirement (Smart Alerts / LaunchEvent),
+         so it's isolated in its own nested VersionOverrides. Clients that don't support 1.12
+         simply skip this block and keep the ribbon button above. -->
     <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
 
       <Requirements>
@@ -66,30 +129,6 @@
           </Runtimes>
           <DesktopFormFactor>
             <FunctionFile resid="Commands.Url"/>
-
-            <ExtensionPoint xsi:type="MessageComposeCommandSurface">
-              <OfficeTab id="TabDefault">
-                <Group id="ValidatorGroup">
-                  <Label resid="ValidatorGroup.Label"/>
-                  <Control xsi:type="Button" id="ValidatorButton">
-                    <Label resid="ValidatorButton.Label"/>
-                    <Supertip>
-                      <Title resid="ValidatorButton.Label"/>
-                      <Description resid="ValidatorButton.Tooltip"/>
-                    </Supertip>
-                    <Icon>
-                      <bt:Image size="16" resid="Icon.16x16"/>
-                      <bt:Image size="32" resid="Icon.32x32"/>
-                      <bt:Image size="80" resid="Icon.80x80"/>
-                    </Icon>
-                    <Action xsi:type="ShowTaskpane">
-                      <SourceLocation resid="Taskpane.Url"/>
-                    </Action>
-                  </Control>
-                </Group>
-              </OfficeTab>
-            </ExtensionPoint>
-
             <!-- Smart Alerts: runs validateOnSend before the message leaves the outbox. -->
             <ExtensionPoint xsi:type="LaunchEvent">
               <LaunchEvents>
@@ -102,23 +141,10 @@
       </Hosts>
 
       <Resources>
-        <bt:Images>
-          <bt:Image id="Icon.16x16" DefaultValue="https://ksra1.github.io/oev/assets/icon-16.png"/>
-          <bt:Image id="Icon.32x32" DefaultValue="https://ksra1.github.io/oev/assets/icon-32.png"/>
-          <bt:Image id="Icon.80x80" DefaultValue="https://ksra1.github.io/oev/assets/icon-80.png"/>
-        </bt:Images>
         <bt:Urls>
           <bt:Url id="Commands.Url" DefaultValue="https://ksra1.github.io/oev/commands.html"/>
-          <bt:Url id="Taskpane.Url" DefaultValue="https://ksra1.github.io/oev/taskpane.html"/>
           <bt:Url id="JSRuntime.Url" DefaultValue="https://ksra1.github.io/oev/commands.js"/>
         </bt:Urls>
-        <bt:ShortStrings>
-          <bt:String id="ValidatorGroup.Label" DefaultValue="Validator"/>
-          <bt:String id="ValidatorButton.Label" DefaultValue="Check Recipients"/>
-        </bt:ShortStrings>
-        <bt:LongStrings>
-          <bt:String id="ValidatorButton.Tooltip" DefaultValue="Group recipients by company domain before you send."/>
-        </bt:LongStrings>
       </Resources>
 
     </VersionOverrides>
