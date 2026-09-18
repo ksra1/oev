@@ -16,21 +16,23 @@
   --ov-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.13), 0 0.3px 0.9px rgba(0, 0, 0, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ov-blue: #2899f5;
-    --ov-blue-dark: #479ef5;
-    --ov-blue-light: #1b2a38;
-    --ov-bg: #1f1f1f;
-    --ov-surface: #292929;
-    --ov-border: #3b3a39;
-    --ov-text: #f3f2f1;
-    --ov-text-secondary: #c8c6c4;
-    --ov-red: #f1707b;
-    --ov-red-light: #3b1f20;
-    --ov-green: #6bb700;
-    --ov-green-light: #1f2e1a;
-  }
+/* Driven by JS reading Office.context.officeTheme (see applyOfficeTheme in
+   taskpane.js / dialog.js), not @media (prefers-color-scheme) - the OS/browser
+   color scheme can disagree with Outlook's own theme setting (e.g. system
+   dark mode on, Outlook itself set to Light), which showed the wrong theme. */
+:root[data-theme="dark"] {
+  --ov-blue: #2899f5;
+  --ov-blue-dark: #479ef5;
+  --ov-blue-light: #1b2a38;
+  --ov-bg: #1f1f1f;
+  --ov-surface: #292929;
+  --ov-border: #3b3a39;
+  --ov-text: #f3f2f1;
+  --ov-text-secondary: #c8c6c4;
+  --ov-red: #f1707b;
+  --ov-red-light: #3b1f20;
+  --ov-green: #6bb700;
+  --ov-green-light: #1f2e1a;
 }
 
 * {
@@ -136,9 +138,13 @@ html, body {
   background: var(--ov-surface);
   border: 1px solid var(--ov-border);
   border-radius: var(--ov-radius);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   overflow: hidden;
   box-shadow: var(--ov-shadow);
+}
+
+.ov-group:last-child {
+  margin-bottom: 0;
 }
 
 .ov-group-header {

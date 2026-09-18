@@ -7,6 +7,7 @@
   const refreshBtn = document.getElementById("refreshBtn");
 
   Office.onReady(() => {
+    applyOfficeTheme();
     render();
     attachChangeHandlers();
     refreshBtn.addEventListener("click", render);
@@ -19,6 +20,30 @@
         item[field].addHandlerAsync(Office.EventType.RecipientsChanged, render);
       }
     });
+    if (Office.context.mailbox.addHandlerAsync) {
+      Office.context.mailbox.addHandlerAsync(Office.EventType.OfficeThemeChanged, applyOfficeTheme);
+    }
+  }
+
+  // Office.context.officeTheme.isDarkTheme isn't supported in Outlook (per Microsoft's docs),
+  // so infer light/dark from the host's own background color instead of the OS/browser
+  // prefers-color-scheme, which can disagree with Outlook's actual theme setting.
+  function applyOfficeTheme() {
+    const theme = Office.context.officeTheme;
+    const bg = theme && theme.bodyBackgroundColor;
+    if (!bg) return;
+    document.documentElement.setAttribute("data-theme", isDarkColor(bg) ? "dark" : "light");
+  }
+
+  function isDarkColor(hex) {
+    const match = /^#?([0-9a-f]{6})$/i.exec(hex);
+    if (!match) return false;
+    const n = parseInt(match[1], 16);
+    const r = (n >> 16) & 255;
+    const g = (n >> 8) & 255;
+    const b = n & 255;
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance < 0.5;
   }
 
   function getRecipientsAsync() {
