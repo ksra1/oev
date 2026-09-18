@@ -7,7 +7,7 @@
   xsi:type="MailApp">
 
   <Id>ca549072-6cf4-4892-8e6a-9e1932b438b0</Id>
-  <Version>1.0.0.3</Version>
+  <Version>1.0.0.4</Version>
   <ProviderName>Sravan</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Email Validator"/>
@@ -48,10 +48,6 @@
 
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
 
-    <!-- Ribbon button: kept at the V1_0 (Mailbox 1.5) level on purpose, so it still shows up
-         on Outlook clients that don't yet support Mailbox 1.12 / Smart Alerts below. If the
-         button lived inside the nested V1_1 block instead, it would silently fail to load
-         (no icon at all) on any client that doesn't meet that higher requirement. -->
     <Requirements>
       <bt:Sets DefaultMinVersion="1.5">
         <bt:Set Name="Mailbox"/>
@@ -107,46 +103,15 @@
       </bt:LongStrings>
     </Resources>
 
-    <!-- Send-time guard: needs the higher Mailbox 1.12 requirement (Smart Alerts / LaunchEvent),
-         so it's isolated in its own nested VersionOverrides. Clients that don't support 1.12
-         simply skip this block and keep the ribbon button above. -->
-    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
-
-      <Requirements>
-        <bt:Sets DefaultMinVersion="1.12">
-          <bt:Set Name="Mailbox"/>
-        </bt:Sets>
-      </Requirements>
-
-      <Hosts>
-        <Host xsi:type="MailHost">
-          <!-- Event-based activation runtime: commands.html for the web/Mac/new-Outlook browser
-               runtime, commands.js directly for the classic-Windows JS-only runtime. -->
-          <Runtimes>
-            <Runtime resid="Commands.Url">
-              <Override type="javascript" resid="JSRuntime.Url"/>
-            </Runtime>
-          </Runtimes>
-          <DesktopFormFactor>
-            <FunctionFile resid="Commands.Url"/>
-            <!-- Smart Alerts: runs validateOnSend before the message leaves the outbox. -->
-            <ExtensionPoint xsi:type="LaunchEvent">
-              <LaunchEvents>
-                <LaunchEvent Type="OnMessageSend" FunctionName="validateOnSend" SendMode="PromptUser"/>
-              </LaunchEvents>
-              <SourceLocation resid="Commands.Url"/>
-            </ExtensionPoint>
-          </DesktopFormFactor>
-        </Host>
-      </Hosts>
-
-      <Resources>
-        <bt:Urls>
-          <bt:Url id="Commands.Url" DefaultValue="https://ksra1.github.io/oev/commands.html"/>
-          <bt:Url id="JSRuntime.Url" DefaultValue="https://ksra1.github.io/oev/commands.js"/>
-        </bt:Urls>
-      </Resources>
-
-    </VersionOverrides>
+    <!-- The OnMessageSend Smart Alerts send-time guard (commands.html/commands.js/dialog.*)
+         is intentionally NOT wired up here. On this add-in's target account
+         (a personal Outlook.com/outlook.live.com mailbox, not Exchange Online), adding a
+         nested VersionOverridesV1_1 LaunchEvent block - regardless of its internal resource
+         id naming - caused Outlook to silently fail to register the ENTIRE manifest, not just
+         the guard, confirmed via four separate isolated test manifests. Smart Alerts' own
+         support table only lists Exchange Online / Exchange Server as backends, which personal
+         Outlook.com mailboxes aren't. If this add-in is ever installed against an Exchange
+         Online (Microsoft 365 work/school) mailbox, the removed block can be restored - see
+         git history for this file, or README.md. -->
   </VersionOverrides>
 </OfficeApp>
