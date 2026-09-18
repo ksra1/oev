@@ -7,11 +7,11 @@
   xsi:type="MailApp">
 
   <Id>ca549072-6cf4-4892-8e6a-9e1932b438b0</Id>
-  <Version>1.0.0.4</Version>
+  <Version>1.0.0.5</Version>
   <ProviderName>Sravan</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Email Validator"/>
-  <Description DefaultValue="Groups the recipients of the message you're composing by company domain, so you can confirm you're not mixing companies before you send."/>
+  <DisplayName DefaultValue="Domain Guard"/>
+  <Description DefaultValue="Domain Guard answers 'who am I sending this to?' before you hit Send: a quick recipient check that groups everyone on the message by company domain, so you catch it before accidentally mixing two companies on one email."/>
   <IconUrl DefaultValue="https://ksra1.github.io/oev/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://ksra1.github.io/oev/assets/icon-80.png"/>
   <SupportUrl DefaultValue="https://github.com/ksra1/oev"/>
@@ -95,11 +95,11 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://ksra1.github.io/oev/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="ValidatorGroup.Label" DefaultValue="Validator"/>
+        <bt:String id="ValidatorGroup.Label" DefaultValue="Domain Guard"/>
         <bt:String id="ValidatorButton.Label" DefaultValue="Check Recipients"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="ValidatorButton.Tooltip" DefaultValue="Group recipients by company domain before you send."/>
+        <bt:String id="ValidatorButton.Tooltip" DefaultValue="See who you're sending to, grouped by company, before you send."/>
       </bt:LongStrings>
     </Resources>
 

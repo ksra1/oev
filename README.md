@@ -1,4 +1,4 @@
-# Outlook Email Validator
+# Domain Guard (for Outlook)
 
 A client-side Outlook add-in that groups the recipients of the message you're
 composing by email domain, so a compose window mixing addresses from
